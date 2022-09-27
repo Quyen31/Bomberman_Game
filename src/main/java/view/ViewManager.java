@@ -23,7 +23,11 @@ public class ViewManager {
     private static final int MENU_BUTTON_X = 100;
     private static final int MENU_BUTTON_Y = 100;
 
-    private SpacaRunnerSubScene credistsSubScene;
+    private static SpacaRunnerSubScene credistsSubScene = new SpacaRunnerSubScene();
+    private static SpacaRunnerSubScene helpSubScene = new SpacaRunnerSubScene();
+    private static SpacaRunnerSubScene scoreSubScene = new SpacaRunnerSubScene();
+
+    private static SpacaRunnerSubScene sceneToHide;
     List<SpaceRunnerButton> MenuButton ;
     private AnchorPane mainPane;
     private Scene mainScene;
@@ -35,7 +39,7 @@ public class ViewManager {
         mainPane = new AnchorPane();
         mainScene = new Scene(mainPane,WIDTH,HEIGHT);
         mainStage = new Stage();
-        mainStage.setTitle("May_Bay_Game");
+        mainStage.setTitle("Bomberman");
         mainStage.setScene(mainScene);
         creteBackground();
         createButtons();
@@ -43,10 +47,6 @@ public class ViewManager {
         createSubScenes();
     }
 
-    private void createSubScenes() {
-        credistsSubScene = new SpacaRunnerSubScene();
-        mainPane.getChildren().add(credistsSubScene);
-    }
     public Stage getMainStage() {
         return mainStage;
     }
@@ -60,25 +60,54 @@ public class ViewManager {
 
     private void createButtons() {
         createStartButton();
+        createHelpButton();
         createScoreButton();
         createCredistsButton();
-        createHelpButton();
         createExitButton();
+    }
+
+    private void createSubScenes() {
+        mainPane.getChildren().add(credistsSubScene);
+        mainPane.getChildren().add(helpSubScene);
+        mainPane.getChildren().add(scoreSubScene);
+
+    }
+
+    private void showSubScene(SpacaRunnerSubScene subScene) {
+        if (sceneToHide != null) {
+            sceneToHide.moveSubScene();
+        }
+
+        subScene.moveSubScene();
+        sceneToHide = subScene;
     }
 
     private void createStartButton() {
         SpaceRunnerButton startButton = new SpaceRunnerButton("PLAY");
         addMenuButton(startButton);
+
     }
 
     private void createScoreButton() {
         SpaceRunnerButton scoretButton = new SpaceRunnerButton("SCORES");
         addMenuButton(scoretButton);
+        scoretButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                showSubScene(scoreSubScene);
+            }
+        });
     }
 
     private void createHelpButton() {
         SpaceRunnerButton helpButton = new SpaceRunnerButton("HELP");
         addMenuButton(helpButton);
+        helpButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                showSubScene(helpSubScene);
+            }
+        });
     }
 
     private void createCredistsButton() {
@@ -88,7 +117,7 @@ public class ViewManager {
         credistsButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                credistsSubScene.moveSubScene();
+                showSubScene(credistsSubScene);
             }
         });
     }
@@ -96,6 +125,13 @@ public class ViewManager {
     private void createExitButton() {
         SpaceRunnerButton ExitButton = new SpaceRunnerButton("EXIT");
         addMenuButton(ExitButton);
+
+        ExitButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                mainStage.close();
+            }
+        });
     }
 
     private void creteBackground() {
