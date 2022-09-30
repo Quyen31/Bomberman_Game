@@ -11,6 +11,7 @@ import model.SpacaRunnerSubScene;
 import model.SpaceRunnerButton;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +87,13 @@ public class ViewManager {
         SpaceRunnerButton startButton = new SpaceRunnerButton("PLAY");
         addMenuButton(startButton);
 
+        startButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                GameViewManager gameManager = new GameViewManager();
+                gameManager.createNewGame(mainStage);
+            }
+        });
     }
 
     private void createScoreButton() {
