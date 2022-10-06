@@ -1,4 +1,4 @@
-package Contruction;
+package view;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
@@ -8,6 +8,17 @@ import javafx.scene.layout.AnchorPane;
 public class ViewImage {
     private ImageView imageView;
     private Image image;
+
+    private static double toX;
+    private static double toY;
+
+    public static double getToX() {
+        return toX;
+    }
+
+    public static double getToY() {
+        return toY;
+    }
 
     private Rectangle2D rectangle2D;
 
@@ -23,6 +34,8 @@ public class ViewImage {
     }
 
     public void cutImage_View(double toX, double toY, AnchorPane gameAnchor) {
+        this.toX = toX;
+        this.toY = toY;
         imageView.setImage(this.image);
         imageView.setViewport(rectangle2D);
         imageView.setLayoutX(toX);
@@ -30,10 +43,5 @@ public class ViewImage {
         gameAnchor.getChildren().add(imageView);
     }
 
-    public Image amm() {
-        imageView.setImage(this.image);
-        imageView.setViewport(rectangle2D);
-        return imageView.getImage();
-    }
 
 }
