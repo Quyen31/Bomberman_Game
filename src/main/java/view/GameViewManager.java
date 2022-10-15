@@ -4,7 +4,6 @@ import Contruction.Contruction_Game;
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
 import javafx.event.EventHandler;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -13,33 +12,30 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import Contruction.Image_Game;
 import javafx.util.Duration;
+import model.Doc_File;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class GameViewManager implements Image_Game, Contruction_Game {
     private static AnchorPane gamePane;
     private Scene gameScene;
     private Stage gameStage;
-
     private Stage menuStage;
-    private static final double GAME_WIDTH = 1056;
-    private static final double GAME_HEIGHT = 624;
     private static Bomberman_run bombermanRun;
 
-    private static ImageView[][] GrassBackground = new ImageView[(int) (GAME_HEIGHT/48)][(int) (1488/48)];
-    private static Rectangle2D rectangle2D;
-    private static char level1[][] = new char[100][100];
+    private static List<Enemy> Enemy = new ArrayList<Enemy>();
+
+    private static ImageView[][] GrassBackground = new ImageView[GAME_HEIGHT][GAME_WIDTH];
+    private static ImageView[][] ItemMap = new ImageView[GAME_HEIGHT][GAME_WIDTH];
     private static boolean isLeftKeyPressed;
     private static boolean isRightPressed;
     private static boolean isUpKeyPressed;
     private static boolean isDownKeyPressed;
-
     private static boolean isKeySpace;
     private AnimationTimer gameTimer;
-
+    private List<Bomb> ArrayBomb = new ArrayList<Bomb>();
+    private static int checkSetBom = 0;
 
     private static TranslateTransition transition = new TranslateTransition();;
 
@@ -47,24 +43,20 @@ public class GameViewManager implements Image_Game, Contruction_Game {
 
     private static List<KeyEvent> ArrayKeyEvent = new ArrayList<KeyEvent>();
 
-    //private static Bomb Bom1 ;
-    private Bomb Bom1;
 
 
     public GameViewManager(){
         initializeStage();
         Game_Background();
         Set_up_Game();
-        Bom1 = new Bomb(gamePane);
         createKeyListeners();
-        bombermanRun.setRun(gamePane);
         transition.setDuration(Duration.seconds(0.001));
         transition.setNode(gamePane);
     }
 
     private void initializeStage() {
         gamePane = new AnchorPane();
-        gameScene = new Scene(gamePane, GAME_WIDTH, GAME_HEIGHT);
+        gameScene = new Scene(gamePane, SCREEN_WIDTH, SCREEN_HEIGHT);
         gamePane.setLayoutX(0);
         gamePane.setLayoutY(0);
         gameStage = new Stage();
@@ -72,41 +64,76 @@ public class GameViewManager implements Image_Game, Contruction_Game {
     }
 
     public void Game_Background() {
-        for(int i = 0; i <= 1488; i += 48) {
-            for (int j = 0; j <= GAME_HEIGHT; j += 48) {
-                ViewImage GrassBackground = new ViewImage(image_classic,288,0,48,48);
-                GrassBackground.cutImage_View(i,j,gamePane);
+        for(int i = 0; i <= GAME_WIDTH; i ++) {
+            for (int j = 0; j <= GAME_HEIGHT; j ++) {
+                ImageView imageView = new ImageView();
+                insertImage(i * 48, j * 48, imageView, image_classic, GrassRectangle, gamePane);
             }
         }
     }
 
-    public static void Set_up_Game(){
-        Doc_File a = new Doc_File("src/main/resources/Resources/level/level1.txt");
-        a.ReaderFile(level1);
-        for (int i = 0; i < GAME_HEIGHT/48; i++) {
-            for (int j = 0; j < 1488/48; j++) {
-                if (level1[i][j] == '#'){
+    public void Set_up_Game(){
+        a.ReaderFile(LEVEL_MAP);
+        System.out.println(a.Arr[0] + " " +a.Arr[1] + " " + a.Arr[2]);
+        for (int i = 0; i < GAME_HEIGHT; i++) {
+            for (int j = 0; j < GAME_WIDTH; j++) {
+                if (LEVEL_MAP[i][j] == '#'){
                     GrassBackground[i][j] = new ImageView();
-                    GrassBackground[i][j].setImage(image_classic);
-                    rectangle2D = new Rectangle2D(240,0,48,48);
-                    GrassBackground[i][j].setViewport(rectangle2D);
-                    GrassBackground[i][j].setLayoutX(j * 48);
-                    GrassBackground[i][j].setLayoutY(i * 48);
-                    gamePane.getChildren().add(GrassBackground[i][j]);
+                    insertImage(j * 48, i * 48, GrassBackground[i][j], image_classic, WallRectangle, gamePane);
+
                 }
-                if (level1[i][j] == '*') {
+                if (LEVEL_MAP[i][j] == '*') {
                     GrassBackground[i][j] = new ImageView();
-                    GrassBackground[i][j].setImage(image_classic);
-                    rectangle2D = new Rectangle2D(336,0,48,48);
-                    GrassBackground[i][j].setViewport(rectangle2D);
-                    GrassBackground[i][j].setLayoutX(j * 48);
-                    GrassBackground[i][j].setLayoutY(i * 48);
-                    gamePane.getChildren().add(GrassBackground[i][j]);
+                    insertImage(j * 48, i * 48, GrassBackground[i][j], image_classic, BrickRectangle, gamePane);
+
                 }
-                if (level1[i][j] == 'p') {
+                if (LEVEL_MAP[i][j] == 'b') {
+                    LEVEL_MAP[i][j] = 'B';
+                    ItemMap[i][j] = new ImageView();
+                    insertImage(j * 48, i * 48, ItemMap[i][j], image_sprites, BombItem, gamePane);
+
+                    GrassBackground[i][j] = new ImageView();
+                    insertImage(j * 48, i * 48, GrassBackground[i][j], image_classic,BrickRectangle, gamePane);
+
+                }
+                if (LEVEL_MAP[i][j] == 's') {
+                    LEVEL_MAP[i][j] = 'S';
+                    ItemMap[i][j] = new ImageView();
+                    insertImage(j * 48, i * 48, ItemMap[i][j], image_sprites, SpeedItem, gamePane);
+
+                    GrassBackground[i][j] = new ImageView();
+                    insertImage(j * 48, i * 48, GrassBackground[i][j], image_classic,BrickRectangle, gamePane);
+
+                }
+                if (LEVEL_MAP[i][j] == 'x') {
+                    LEVEL_MAP[i][j] = 'X';
+                    ItemMap[i][j] = new ImageView();
+                    insertImage(j * 48, i * 48, ItemMap[i][j], image_sprites, Portal, gamePane);
+
+                    GrassBackground[i][j] = new ImageView();
+                    insertImage(j * 48, i * 48, GrassBackground[i][j], image_classic,BrickRectangle, gamePane);
+
+                }
+                if (LEVEL_MAP[i][j] == 'f') {
+                    LEVEL_MAP[i][j] = 'F';
+                    ItemMap[i][j] = new ImageView();
+                    insertImage(j * 48, i * 48, ItemMap[i][j], image_sprites, FlameItem, gamePane);
+
+                    GrassBackground[i][j] = new ImageView();
+                    insertImage(j * 48, i * 48, GrassBackground[i][j], image_classic,BrickRectangle, gamePane);
+
+                }
+                if (LEVEL_MAP[i][j] == 'p') {
                     bombermanRun = new Bomberman_run(j * 48,i * 48);
                 }
 
+                if (LEVEL_MAP[i][j] == '1') {
+                    Enemy.add(new Enemy(1,j * 48, i* 48, gamePane));
+                }
+
+                if (LEVEL_MAP[i][j] == '2') {
+                    Enemy.add(new Enemy(2,j * 48, i* 48, gamePane));
+                }
             }
         }
     }
@@ -146,19 +173,28 @@ public class GameViewManager implements Image_Game, Contruction_Game {
         gameScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if (checkBomOne == true && event.getCode() == KeyCode.SPACE) {
+                if (Bomb.checkNumberBom >= bombermanRun.NumberBom && event.getCode() == KeyCode.SPACE) {
                     isKeySpace = false;
-                }
-                if (ArrayKeyEvent.size() == 0) {
-                    ArrayKeyEvent.add(event);
-                }
-                if (ArrayKeyEvent.size() == 1){
-                    if(event.getCode() != ArrayKeyEvent.get(0).getCode()) {
+                } else {
+                    if (ArrayKeyEvent.size() == 0) {
                         ArrayKeyEvent.add(event);
-                        checkFalse(ArrayKeyEvent.get(0).getCode());
                     }
+                    if (ArrayKeyEvent.size() == 1){
+                        if(event.getCode() != ArrayKeyEvent.get(0).getCode()) {
+                            ArrayKeyEvent.add(event);
+                            checkFalse(ArrayKeyEvent.get(0).getCode());
+                        }
+                    }
+                    if (ArrayKeyEvent.size() == 2){
+                        if(event.getCode() != ArrayKeyEvent.get(0).getCode() && event.getCode() != ArrayKeyEvent.get(1).getCode()) {
+                            ArrayKeyEvent.add(event);
+                            checkFalse(ArrayKeyEvent.get(0).getCode());
+                            checkFalse(ArrayKeyEvent.get(1).getCode());
+                        }
+                    }
+                    checkTrue(event.getCode());
                 }
-                checkTrue(event.getCode());
+
             }
         });
 
@@ -181,19 +217,31 @@ public class GameViewManager implements Image_Game, Contruction_Game {
                         ArrayKeyEvent.remove(0);
                     }
                 }
+                if (ArrayKeyEvent.size() == 3) {
+                    if (event.getCode() == ArrayKeyEvent.get(0).getCode()) {
+                        ArrayKeyEvent.remove(0);
+                    }
+                    if (event.getCode() == ArrayKeyEvent.get(1).getCode()) {
+                        ArrayKeyEvent.remove(1);
+                    }
+                    if (event.getCode() == ArrayKeyEvent.get(2).getCode()) {
+                        ArrayKeyEvent.remove(2);
+                        checkTrue(ArrayKeyEvent.get(1).getCode());
+                    }
+                }
                 checkFalse(event.getCode());
             }
         });
     }
     private void moveMap() {
-        if (bombermanRun.getToX() > 504 + 2 * K && bombermanRun.getToX() <= 960) {
-            transition.setToX( - 2 * K);
+        if (bombermanRun.getToX() > 504 + bombermanRun.SPEED_MAX * K && bombermanRun.getToX() <= 960) {
+            transition.setToX( - bombermanRun.SPEED_MAX * K);
             K ++;
             transition.play();
         }
-        if (bombermanRun.getToX() < 504 + 2 * K && bombermanRun.getToX() >= 504) {
+        if (bombermanRun.getToX() < 504 + bombermanRun.SPEED_MAX * K && bombermanRun.getToX() >= 504) {
             K --;
-            transition.setToX( - 2 * K);
+            transition.setToX( - bombermanRun.SPEED_MAX * K);
             transition.play();
         }
     }
@@ -203,40 +251,38 @@ public class GameViewManager implements Image_Game, Contruction_Game {
         gameTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                setBomb();
+                loopEnemy();
                 moveBomberman();
                 moveMap();
+                Bomb();
+                //System.out.println(Bomb.checkNumberBom + " " + ArrayBomb.size());
 
             }
         };
         gameTimer.start();
     }
-    private static int k = 0;
 
-    private static boolean checkBomOne = false;
-    public boolean Bomb () {
-        if (isKeySpace == true && checkBomOne == false) {
-            k = 1;
+    private void loopEnemy() {
+        for ( int j = 0; j < Enemy.size(); j++) {
+            Enemy.get(j).moveEnemyOne(LEVEL_MAP, bombermanRun);
         }
-        if (k == 1 && isKeySpace == false) {
-            Bom1.setToX(bombermanRun.getToX());
-            Bom1.setToY(bombermanRun.getToY());
-            System.out.println(Bom1.getToX() + " " + Bom1.getToY());
-            k = 0;
-            return true;
+
+    }
+    public void Bomb () {
+        if (isKeySpace == true) {
+            checkSetBom = 1;
         }
-        return false;
+        if (checkSetBom == 1 && isKeySpace == false) {
+            Bomb.checkFire = bombermanRun.ExplosiveSize;
+            Bomb.checkNumberBom ++;
+            ArrayBomb.add(new Bomb(gamePane));
+            ArrayBomb.get(ArrayBomb.size()-1).toX = bombermanRun.getToX();
+            ArrayBomb.get(ArrayBomb.size()-1).toY = bombermanRun.getToY();
+            ArrayBomb.get(ArrayBomb.size()-1).loopBom(gamePane,LEVEL_MAP,GrassBackground, Enemy,ArrayBomb);
+            checkSetBom = 0;
+        }
     }
 
-    private static int check = 0;
-    private static int check1 = 0;
-
-    private static boolean check3 = false;
-    private static boolean check4 = true;
-
-
-    private static Timer timer1 = new Timer();
-    private static Timer timer2 = new Timer();
     private void moveBomberman() {
         if (!isLeftKeyPressed && isRightPressed && !isDownKeyPressed && !isUpKeyPressed) {
             Bomberman_Run(1);
@@ -252,77 +298,49 @@ public class GameViewManager implements Image_Game, Contruction_Game {
         }
     }
 
-    private void setBomb() {
-        if (Bomb() == true  || check == 60 || check1 == 15) {
-            if (check == 0 && check1 == 0) {
-                checkBomOne = true;
-                TimerTask timerTask = new TimerTask() {
-                    @Override
-                    public void run() {
-                        Bom1.createBomb();
-                        check ++;
-                    }
-                };
-
-                timer1 = new Timer();
-                timer2 = new Timer();
-                long delay = 30;
-                timer1.schedule(timerTask, 0, delay);
-            }
-            if(check == 60 ) {
-                timer1.cancel();
-                Bom1.resertBomb(gamePane);
-                Bom1.explosiveBombs(level1,GrassBackground,gamePane);
-                check = 0;
-                TimerTask timerTask1 = new TimerTask() {
-                    @Override
-                    public void run() {
-                        Bom1.imageExplosiveBombs(level1, gamePane);
-                        check1 ++;
-                    }
-                };
-                timer2.schedule(timerTask1, 0, 30);
-            }
-            if (check1 == 15) {
-                timer2.cancel();
-                Bom1.resetMap(level1);
-                check1 = 0;
-                checkBomOne = false;
-            }
-
-        }
-    }
     private void Bomberman_Run(int test) {
-        bombermanRun.setSpeed(SPEED_MEDIUM);
+        bombermanRun.eatItem(LEVEL_MAP, ItemMap, gamePane);
+
+        if (bombermanRun.SPEED_MAX < SPEED_MEDIUM + bombermanRun.SPEED) {
+            bombermanRun.SPEED_MAX = SPEED_MEDIUM + bombermanRun.SPEED;
+        }
+        bombermanRun.setSpeed(SPEED_MEDIUM + bombermanRun.SPEED);
+        if (ArrayBomb.size() == 0) {
+            ArrayBomb.add(new Bomb(gamePane));
+        }
         if (test == 1) {
-            if (bombermanRun.checkMap(bombermanRun.getToX() + 2, bombermanRun.getToY(), level1) == false || check4 == false) {
+            if (bombermanRun.checkMap(bombermanRun.getToX() + bombermanRun.getSpeed(), bombermanRun.getToY(), LEVEL_MAP, ArrayBomb.get(ArrayBomb.size()-1)) == false) {
                 bombermanRun.setSpeed(SPEED_STOP);
             }
             bombermanRun.Run(RIGHT);
         }
         if (test == 2) {
-            if (bombermanRun.checkMap(bombermanRun.getToX() - 2, bombermanRun.getToY(), level1) == false|| check4 == false) {
+            if (bombermanRun.checkMap(bombermanRun.getToX() - bombermanRun.getSpeed(), bombermanRun.getToY(), LEVEL_MAP, ArrayBomb.get(ArrayBomb.size()-1)) == false) {
                 bombermanRun.setSpeed(SPEED_STOP);
             }
             bombermanRun.Run(LEFT);
         }
         if (test == 3) {
-            if (bombermanRun.checkMap(bombermanRun.getToX(), bombermanRun.getToY() - 2, level1) == false|| check4 == false) {
+            if (bombermanRun.checkMap(bombermanRun.getToX(), bombermanRun.getToY() - bombermanRun.getSpeed(), LEVEL_MAP, ArrayBomb.get(ArrayBomb.size()-1)) == false) {
                 bombermanRun.setSpeed(SPEED_STOP);
             }
             bombermanRun.Run(UP);
         }
         if (test == 4) {
-            if (bombermanRun.checkMap(bombermanRun.getToX(), bombermanRun.getToY() + 2, level1) == false || check4 == false) {
+            if (bombermanRun.checkMap(bombermanRun.getToX(), bombermanRun.getToY() + bombermanRun.getSpeed(), LEVEL_MAP, ArrayBomb.get(ArrayBomb.size()-1)) == false) {
                 bombermanRun.setSpeed(SPEED_STOP);
             }
             bombermanRun.Run(DOWN);
         }
+        if (ArrayBomb.size() == 0) {
+            ArrayBomb.remove(ArrayBomb.get(0));
+        }
 
-    }
+}
     public void createNewGame(Stage menuStage) {
         this.menuStage = menuStage;
         this.menuStage.hide();
+        bombermanRun.setRun(gamePane);
         createGameLoop();
         gameStage.show();
 
