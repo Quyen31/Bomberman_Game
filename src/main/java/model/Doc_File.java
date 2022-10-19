@@ -11,6 +11,8 @@ public class Doc_File {
 
     public int[] Arr = new int[3]; // 3 số đầu ở hàng 1
 
+    public int numberENEMY = 0;
+
     public Doc_File(String url) {
         this.url = url;
         ReaderOne();
@@ -60,8 +62,11 @@ public class Doc_File {
                     break;
                 }
                 for (j = 0; j < line.length(); j++) {
-                    if (i != 0)
+                    if (i != 0){
                         listAray[i-1][j] = line.charAt(j);
+                        if (line.charAt(j) == '1' || line.charAt(j) == '2')
+                            numberENEMY ++;
+                    }
                 }
                 i++;
             }

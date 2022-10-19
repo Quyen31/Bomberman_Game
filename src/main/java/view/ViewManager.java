@@ -1,5 +1,7 @@
 package view;
 
+import Contruction.Image_Game;
+import Contruction.MusicGame;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -7,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import model.Music;
 import model.SpacaRunnerSubScene;
 import model.SpaceRunnerButton;
 
@@ -16,7 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewManager {
+public class ViewManager implements MusicGame, Image_Game {
 
     private static final int WIDTH = 1024;
     private static final int HEIGHT = 600;
@@ -34,18 +37,22 @@ public class ViewManager {
     private Scene mainScene;
     private Stage mainStage;
 
+    private static Music musicMenu;
+
 
     public ViewManager() throws IOException {
         MenuButton = new ArrayList<>();
         mainPane = new AnchorPane();
         mainScene = new Scene(mainPane,WIDTH,HEIGHT);
         mainStage = new Stage();
-        mainStage.setTitle("Bomberman");
+        mainStage.setTitle("Menu Bomberman");
         mainStage.setScene(mainScene);
         creteBackground();
         createButtons();
         textBackground();
         createSubScenes();
+        musicMenu = new Music(music_menu_url);
+        musicMenu.musicLoop();
     }
 
     public Stage getMainStage() {
@@ -90,8 +97,10 @@ public class ViewManager {
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                GameViewManager gameManager = new GameViewManager();
-                gameManager.createNewGame(mainStage);
+                musicMenu.clip.stop();
+                MENU_LEVEL menu_level = new MENU_LEVEL();
+                menu_level.createNewGame(mainStage, 0);
+                MENU_LEVEL.musicMenu = musicMenu;
             }
         });
     }
@@ -144,8 +153,6 @@ public class ViewManager {
 
     private void creteBackground() {
 
-        Image image1 = new Image(new File("src/main/resources/Resources/blue.png").toURI().toString(),256, 256, false, true);
-        BackgroundImage backgroundImage1 = new BackgroundImage(image1,BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT,BackgroundPosition.DEFAULT,null);
         mainPane.setBackground(new Background(backgroundImage1));
     }
 

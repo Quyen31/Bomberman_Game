@@ -14,18 +14,11 @@ public interface Contruction_Game {
 
     int UNIT = 48; // Độ dài 1 khối
 
-    double SCREEN_WIDTH = 1056; // Chiều rộng màn hình
-    double SCREEN_HEIGHT = 624; // Chiều cao màn hinhf
+    int SCREEN_WIDTH = 1056; // Chiều rộng màn hình
+    int SCREEN_HEIGHT = 624; // Chiều cao màn hinhf
 
-    Doc_File a = new Doc_File("src/main/resources/Resources/level/level1.txt");
-
-    int GAME_WIDTH = a.Arr[2];
-
-    int GAME_HEIGHT = a.Arr[1];
-
-    int LEVEL = a.Arr[0];
-    char [][] LEVEL_MAP = new char[GAME_HEIGHT][GAME_WIDTH];
-
+    String[] ARRAY_URL_LEVEL = {"src/main/resources/Resources/level/level1.txt",
+                                "src/main/resources/Resources/level/level2.txt"};
 
     char[] ForbiddenToMoveIn = {'#', '*', 'S', 'B', 'F', 'X'}; // Các ký tự không được đi vào
     default boolean CheckForbiddenToMoveIn(char A) {
