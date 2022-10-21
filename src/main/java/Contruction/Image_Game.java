@@ -185,7 +185,7 @@ public interface Image_Game {
         EnemyDie[2] = new Rectangle2D(624, 192, 48, 48);
     }
 
-    default void dieBomber() {
+    default void dieBomberRectangle() {
         BomberDie[0] = new Rectangle2D(576, 0, 48, 48);
         BomberDie[1] = new Rectangle2D(624, 0, 48, 48);
         BomberDie[2] = new Rectangle2D(672, 0, 48, 48);

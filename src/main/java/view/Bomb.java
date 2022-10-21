@@ -38,7 +38,7 @@ public class Bomb implements Image_Game, Contruction_Game, MusicGame {
 
     public int toY;
 
-    public Bomb(AnchorPane GamePane, char[][] Map, int GAME_HEIGHT, int GAME_WIDTH){
+    public Bomb(AnchorPane GamePane, char[][] Map, int GAME_HEIGHT, int GAME_WIDTH) {
         this.GAME_HEIGHT = GAME_HEIGHT;
         this.GAME_WIDTH = GAME_WIDTH;
         this.Map = Map;
@@ -61,27 +61,28 @@ public class Bomb implements Image_Game, Contruction_Game, MusicGame {
     public int widthExplosiveMax;
     public int hightExplosiveMin;
     public int hightExplosiveMax;
-    private int i = 0 ;
+    private int i = 0;
 
     private void addAnchoPane(List<ImageView> Image) {
-        for (int j = 0; j < checkFire; j ++) {
+        for (int j = 0; j < checkFire; j++) {
             Image.add(new ImageView());
-            GamePane.getChildren().add(Image.get(Image.size()-1));
+            GamePane.getChildren().add(Image.get(Image.size() - 1));
         }
     }
 
     private void rmoveAnchoPane(List<ImageView> Image) {
-        for (int j = 0; j < checkFire; j ++) {
+        for (int j = 0; j < checkFire; j++) {
             GamePane.getChildren().remove(Image.get(j));
         }
     }
-    public void createBomb()  {
+
+    public void createBomb() {
         BombRectnagle();
-        if ( i >= 15) {
+        if (i >= 15) {
             i = 0;
         }
-        int a1 = (int)toX/48;
-        int b1 =  (int)toY/48;
+        int a1 = (int) toX / 48;
+        int b1 = (int) toY / 48;
         Animation(8, i, a1, b1, bombRectangle, ImageBom, image_sprites);
         i++;
     }
@@ -96,7 +97,7 @@ public class Bomb implements Image_Game, Contruction_Game, MusicGame {
             if (CheckForbiddenToMoveIn(Map[Array[1][j]][Array[0][j]]) == true) {
                 break;
             }
-            if ( b == 1) {
+            if (b == 1) {
                 hightExplosiveMin = hightExplosiveMin - 48;
             }
             if (b == 2) {
@@ -112,15 +113,14 @@ public class Bomb implements Image_Game, Contruction_Game, MusicGame {
     }
 
     /**
-     *
      * Hàm đưa ra giới hạn của bom.
      * Phục vụ cho Hàm die (tính giới hạn va chạm)
      */
     public void limitExplosive() {
 //        int a = (int)(toX + 24)/48 ;
 //        int b =  (int)(toY + 24)/48 ;
-        int a = (int)toX/48 ;
-        int b =  (int)toY/48 ;
+        int a = (int) toX / 48;
+        int b = (int) toY / 48;
         widthExplosiveMin = a * 48;
         widthExplosiveMax = a * 48 + 48;
         hightExplosiveMin = b * 48;
@@ -133,7 +133,6 @@ public class Bomb implements Image_Game, Contruction_Game, MusicGame {
     }
 
     /**
-     *
      * Hàm xóa hình gạch trước khi bom nổ hiện các tia lửa phải xóa gạch
      */
     private void resetBrick(int[][] Array, ImageView[][] ImageMap) {
@@ -154,14 +153,14 @@ public class Bomb implements Image_Game, Contruction_Game, MusicGame {
         resetBrick(ArrayD, ImageMap);
     }
 
-    private int [][] ArrayR = new int[2][checkFire];
-    private int [][] ArrayL = new int[2][checkFire];
-    private int [][] ArrayU = new int[2][checkFire];
-    private int [][] ArrayD = new int[2][checkFire];
+    private int[][] ArrayR = new int[2][checkFire];
+    private int[][] ArrayL = new int[2][checkFire];
+    private int[][] ArrayU = new int[2][checkFire];
+    private int[][] ArrayD = new int[2][checkFire];
 
 
-    private void reset (int[][] Array, List<ImageView> imageViews) {
-        for (int j = 0; j< checkFire; j++) {
+    private void reset(int[][] Array, List<ImageView> imageViews) {
+        for (int j = 0; j < checkFire; j++) {
             if (CheckForbiddenToMoveIn(Map[Array[1][j]][Array[0][j]]) == true) {
                 if (Map[Array[1][j]][Array[0][j]] == '*') {
                     Map[Array[1][j]][Array[0][j]] = ' ';
@@ -183,6 +182,7 @@ public class Bomb implements Image_Game, Contruction_Game, MusicGame {
         }
         rmoveAnchoPane(imageViews);
     }
+
     public void resetMap() {
         reset(ArrayR, ImageBomRight);
         reset(ArrayL, ImageBomLeft);
@@ -191,21 +191,23 @@ public class Bomb implements Image_Game, Contruction_Game, MusicGame {
         GamePane.getChildren().remove(ImageBom1);
         i = 0;
     }
+
     private void FourWayCoordinates() {
 //        int a = (int)(toX + 24)/48;
 //        int b =  (int)(toY + 24)/48;
-        int a = (int)(toX)/48;
-        int b =  (int)(toY)/48;
-        for (int j = 0 ; j < checkFire; j++) {
+        int a = (int) (toX) / 48;
+        int b = (int) (toY) / 48;
+        for (int j = 0; j < checkFire; j++) {
             if (a + 1 + j > GAME_WIDTH) {
                 ArrayR[0][j] = ArrayL[0][0];
                 ArrayR[1][j] = ArrayL[1][0];
             } else {
                 ArrayR[0][j] = a + 1 + j;
-                ArrayR[1][j] = b;;
+                ArrayR[1][j] = b;
+                ;
             }
         }
-        for (int j = 0 ; j < checkFire; j++) {
+        for (int j = 0; j < checkFire; j++) {
             if (a - 1 - j < 0) {
                 ArrayL[0][j] = ArrayL[0][0];
                 ArrayL[1][j] = ArrayL[1][0];
@@ -214,7 +216,7 @@ public class Bomb implements Image_Game, Contruction_Game, MusicGame {
                 ArrayL[1][j] = b;
             }
         }
-        for (int j = 0 ; j < checkFire; j++) {
+        for (int j = 0; j < checkFire; j++) {
             if (b - 1 - j < 0) {
                 ArrayU[0][j] = ArrayU[0][0];
                 ArrayU[1][j] = ArrayU[1][0];
@@ -223,7 +225,7 @@ public class Bomb implements Image_Game, Contruction_Game, MusicGame {
                 ArrayU[1][j] = b - 1 - j;
             }
         }
-        for (int j = 0 ; j < checkFire; j++) {
+        for (int j = 0; j < checkFire; j++) {
             if (b + 1 + j > GAME_HEIGHT) {
                 ArrayD[0][j] = ArrayD[0][0];
                 ArrayD[1][j] = ArrayD[1][0];
@@ -233,22 +235,24 @@ public class Bomb implements Image_Game, Contruction_Game, MusicGame {
             }
         }
     }
-    private void insertFire(int [][] Array, List<ImageView> imageViews, Rectangle2D[] rectangle2D, Rectangle2D[] rectangle2D1) {
-        for (int j = 0; j< checkFire; j++) {
+
+    private void insertFire(int[][] Array, List<ImageView> imageViews, Rectangle2D[] rectangle2D, Rectangle2D[] rectangle2D1) {
+        for (int j = 0; j < checkFire; j++) {
             if (Map[Array[1][j]][Array[0][j]] == '*' || Map[Array[1][j]][Array[0][j]] == 'B' || Map[Array[1][j]][Array[0][j]] == 'X'
-                || Map[Array[1][j]][Array[0][j]] == 'F'|| Map[Array[1][j]][Array[0][j]] == 'S') {
-                Animation(5, i, Array[0][j], Array[1][j],wallRectangle,imageViews.get(j) , image_sprites);
+                    || Map[Array[1][j]][Array[0][j]] == 'F' || Map[Array[1][j]][Array[0][j]] == 'S') {
+                Animation(5, i, Array[0][j], Array[1][j], wallRectangle, imageViews.get(j), image_sprites);
                 break;
             } else if (Map[Array[1][j]][Array[0][j]] == '#') {
                 break;
             } else {
-                if (j == checkFire -1)
+                if (j == checkFire - 1)
                     Animation(5, i, Array[0][j], Array[1][j], rectangle2D, imageViews.get(j), image_sprites);
                 else
                     Animation(5, i, Array[0][j], Array[1][j], rectangle2D1, imageViews.get(j), image_sprites);
             }
         }
     }
+
     public void imageExplosiveBombs() {
         FireMindleRectangle();
         FireUpRectangle();
@@ -259,24 +263,26 @@ public class Bomb implements Image_Game, Contruction_Game, MusicGame {
         FireUD();
         wallRectangle();
 
-        if ( i > 15) {
+        if (i > 15) {
             i = 0;
         }
 //        Animation(5, i, (int)(toX + 24)/48, (int)(toY + 24)/48, mindleFireRectangle, ImageBom1, image_sprites);
-        Animation(5, i, (int)(toX)/48, (int)(toY)/48, mindleFireRectangle, ImageBom1, image_sprites);
+        Animation(5, i, (int) (toX) / 48, (int) (toY) / 48, mindleFireRectangle, ImageBom1, image_sprites);
 
         insertFire(ArrayR, ImageBomRight, rightFireRectangle, FireRLRectangle);
         insertFire(ArrayL, ImageBomLeft, leftFireRectangle, FireRLRectangle);
         insertFire(ArrayU, ImageBomUp, upFireRectangle, FireUDRectnagle);
         insertFire(ArrayD, ImageBomDown, downFireRectangle, FireUDRectnagle);
-        i ++;
+        i++;
     }
+
     public void resertBomb(AnchorPane gamePane) {
         GamePane.getChildren().remove(ImageBom);
         i = 0;
     }
 
     private Music musicBomb;
+
     public void loopBom(ImageView[][] GrassBackground, List<Enemy> Enemy, List<Bomb> ArrayBomb, Bomberman bombermanRun) {
         loopBom = new AnimationTimer() {
             @Override
@@ -287,8 +293,11 @@ public class Bomb implements Image_Game, Contruction_Game, MusicGame {
                     limitExplosive();
                     musicBomb.musicStart(25);
                     die(Enemy, bombermanRun);
+                    //loopDie(Enemy,bombermanRun);
                     explosiveBombs(GrassBackground);
                 } else if (timeBom > 130 && timeBom < 145) {
+                    die(Enemy, bombermanRun);
+                    //loopDie(Enemy,bombermanRun);
                     imageExplosiveBombs();
                 } else if (timeBom > 0 && timeBom < 130) {
                     createBomb();
@@ -298,34 +307,32 @@ public class Bomb implements Image_Game, Contruction_Game, MusicGame {
                 if (timeBom == 145) {
                     loopBom.stop();
                     ArrayBomb.remove(this);
-                    checkNumberBom --;
+                    checkNumberBom--;
                     timeBom = 0;
 //                    Map[(int)(toY + 24) / 48  ][(int)(toX + 24) / 48] = ' ';
-                    Map[(int)(toY) / 48  ][(int)(toX) / 48] = ' ';
+                    Map[(int) (toY) / 48][(int) (toX) / 48] = ' ';
                 }
-                timeBom ++;
+                timeBom++;
             }
         };
         musicBomb = new Music(music_bomb_url);
         musicBomb.Volume(3);
 //        Map[(int)(toY + 24) / 48  ][(int)(toX + 24) / 48] = 'n';
-        Map[(int)(toY) / 48  ][(int)(toX) / 48] = 'n';
+        Map[(int) (toY) / 48][(int) (toX) / 48] = 'n';
         loopBom.start();
     }
 
 
     private void die(List<Enemy> Enemy, Bomberman bombermanRun) {
-//        int aX = (int) ((toX + 24)/48) * 48;
-//        int bY = (int) ((toY + 24)/48) * 48;
-        int aX = (int) ((toX)/48) * 48;
-        int bY = (int) ((toY)/48) * 48;
+        int aX = (int) ((toX) / 48) * 48;
+        int bY = (int) ((toY) / 48) * 48;
 
         // Enemy die bị bom nổ
         for (int j = 0; j < Enemy.size(); j++) {
 
             for (int m = 0; m < 4; m++) {
                 if (Enemy.get(j).ArrayX[m] < widthExplosiveMax && Enemy.get(j).ArrayX[m] > widthExplosiveMin &&
-                        Enemy.get(j).ArrayY[m] > bY && Enemy.get(j).ArrayY[m] < bY + 48){
+                        Enemy.get(j).ArrayY[m] > bY && Enemy.get(j).ArrayY[m] < bY + 48) {
                     Enemy.get(j).die = true;
                     break;
                 }
@@ -347,17 +354,22 @@ public class Bomb implements Image_Game, Contruction_Game, MusicGame {
 
 
         // Bom die Bomber
-        for (int m = 0; m < 4; m++) {
-            if (bombermanRun.ArrX[m] < widthExplosiveMax && bombermanRun.ArrX[m] > widthExplosiveMin &&
-                    bombermanRun.ArrY[m] > bY && bombermanRun.ArrY[m] < bY + 48) {
-                bombermanRun.loopDie();
-                break;
-            }
-            if (bombermanRun.ArrY[m] < hightExplosiveMax && bombermanRun.ArrY[m] > hightExplosiveMin &&
-                    bombermanRun.ArrX[m] > aX && bombermanRun.ArrX[m] < aX + 48) {
-                bombermanRun.loopDie();
-                break;
+        if (bombermanRun.gameOver == false) {
+            for (int m = 0; m < 4; m++) {
+                if (bombermanRun.ArrayX[m] < widthExplosiveMax && bombermanRun.ArrayX[m] > widthExplosiveMin &&
+                        bombermanRun.ArrayY[m] > bY && bombermanRun.ArrayY[m] < bY + 48) {
+                    bombermanRun.gameOver = true;
+//                    bombermanRun.loopDie();
+                    break;
+                }
+                if (bombermanRun.ArrayY[m] < hightExplosiveMax && bombermanRun.ArrayY[m] > hightExplosiveMin &&
+                        bombermanRun.ArrayX[m] > aX && bombermanRun.ArrayX[m] < aX + 48) {
+                    bombermanRun.gameOver = true;
+//                    bombermanRun.loopDie();
+                    break;
+                }
             }
         }
+
     }
 }

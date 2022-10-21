@@ -285,6 +285,7 @@ public class GameViewManager implements Contruction_Game, Image_Game, MusicGame 
     private int timeGameOver = 0;
     private void gameOver() {
         if (bombermanRun.gameOver == true) {
+            bombermanRun.loopDie();
             loopGameOver = new AnimationTimer() {
                 @Override
                 public void handle(long now) {
@@ -330,9 +331,9 @@ public class GameViewManager implements Contruction_Game, Image_Game, MusicGame 
         if (bombermanRun.gameOver == false) {
             for (int j = 0; j < Enemy.size(); j++) {
                 for (int m = 0; m < 4; m++) {
-                    if (bombermanRun.ArrX[m] <= Enemy.get(j).ArrayX[1] && bombermanRun.ArrX[m] >= Enemy.get(j).ArrayX[0] &&
-                            bombermanRun.ArrY[m] >= Enemy.get(j).ArrayY[0] && bombermanRun.ArrY[m] <= Enemy.get(j).ArrayY[2]) {
-                        bombermanRun.loopDie();
+                    if (bombermanRun.ArrayX[m] <= Enemy.get(j).ArrayX[1] && bombermanRun.ArrayX[m] >= Enemy.get(j).ArrayX[0] &&
+                            bombermanRun.ArrayY[m] >= Enemy.get(j).ArrayY[0] && bombermanRun.ArrayY[m] <= Enemy.get(j).ArrayY[2]) {
+                        //bombermanRun.loopDie();
                         bombermanRun.gameOver = true;
                         break;
                     }
@@ -368,16 +369,16 @@ public class GameViewManager implements Contruction_Game, Image_Game, MusicGame 
     private int checkMusic = 0;
     private void moveBomberman() {
         if (!isLeftKeyPressed && isRightPressed && !isDownKeyPressed && !isUpKeyPressed) {
-            Bomberman_Run(1);
+            Bomberman_Run(RIGHT);
         }
         if (isLeftKeyPressed && !isRightPressed && !isDownKeyPressed && !isUpKeyPressed) {
-            Bomberman_Run(2);
+            Bomberman_Run(LEFT);
         }
         if (!isLeftKeyPressed && !isRightPressed && !isDownKeyPressed && isUpKeyPressed) {
-            Bomberman_Run(3);
+            Bomberman_Run(UP);
         }
         if (!isLeftKeyPressed && !isRightPressed && isDownKeyPressed && !isUpKeyPressed) {
-            Bomberman_Run(4);
+            Bomberman_Run(DOWN);
         }
         if (isLeftKeyPressed || isRightPressed || isDownKeyPressed || isUpKeyPressed) {
             if (checkMusic == 20)
@@ -388,7 +389,7 @@ public class GameViewManager implements Contruction_Game, Image_Game, MusicGame 
             checkMusic ++;
         }
     }
-    private void Bomberman_Run(int test) {
+    private void Bomberman_Run(String direction) {
         bombermanRun.eatItem(ItemMap);
 
         if (bombermanRun.SPEED_MAX < SPEED_MEDIUM + bombermanRun.SPEED) {
@@ -398,26 +399,26 @@ public class GameViewManager implements Contruction_Game, Image_Game, MusicGame 
         if (ArrayBomb.size() == 0) {
             ArrayBomb.add(new Bomb(gamePane, LEVEL_MAP, GAME_HEIGHT, GAME_WIDTH));
         }
-        bombermanRun.moveCorrect(test);
-        if (test == 1) {
+        bombermanRun.moveCorrect(direction);
+        if (direction == RIGHT) {
             if (bombermanRun.checkMap(bombermanRun.toX + bombermanRun.speed, bombermanRun.toY, ArrayBomb.get(ArrayBomb.size()-1)) == false) {
                 bombermanRun.speed = SPEED_STOP;
             }
             bombermanRun.move(RIGHT);
         }
-        if (test == 2) {
+        if (direction == LEFT) {
             if (bombermanRun.checkMap(bombermanRun.toX - bombermanRun.speed, bombermanRun.toY, ArrayBomb.get(ArrayBomb.size()-1)) == false) {
                 bombermanRun.speed = SPEED_STOP;
             }
             bombermanRun.move(LEFT);
         }
-        if (test == 3) {
+        if (direction == UP) {
             if (bombermanRun.checkMap(bombermanRun.toX, bombermanRun.toY - bombermanRun.speed, ArrayBomb.get(ArrayBomb.size()-1)) == false) {
                 bombermanRun.speed = SPEED_STOP;
             }
             bombermanRun.move(UP);
         }
-        if (test == 4) {
+        if (direction == DOWN) {
             if (bombermanRun.checkMap(bombermanRun.toX, bombermanRun.toY + bombermanRun.speed, ArrayBomb.get(ArrayBomb.size()-1)) == false) {
                 bombermanRun.speed = SPEED_STOP;
             }

@@ -12,48 +12,32 @@ import javafx.util.Duration;
 import model.Music;
 
 public class Bomberman extends Entry implements Image_Game, Contruction_Game, MusicGame {
-    private static AnchorPane GamePane;
-
+    private TranslateTransition transition = new TranslateTransition();
     private static Stage menuStage;
-
     private static Stage gameStage;
-
     private static AnimationTimer loopdie;
-    public static ImageView imageBomberman;
-
     public int speed = SPEED_MEDIUM; // Vận tốc
     public int SPEED = 0; // đơn vị vận tốc để tăng
-
     public int SPEED_MAX = SPEED_MEDIUM; // Vận tốc max hiện t
-
     public int NumberBom = 1; // Số bom mà bomber có thể đặt
-
     public int ExplosiveSize = 1;
-
-    public static int toX ;
-    public static int toY ;
-    private static int count = 0;
-
-    private static char[][] LEVEL_MAP;
-
     public boolean gameOver = false;
-
-    private TranslateTransition transition = new TranslateTransition();
 
     /**
      * Contruction
      */
-    public Bomberman(int toX, int toY, char[][] LEVEL_MAP, AnchorPane GamePane, Stage gameStage, Stage menuStage) {
+    public Bomberman(int toX, int toY, char[][] LEVEL_MAP, AnchorPane gamePane, Stage gameStage, Stage menuStage) {
         this.menuStage = menuStage;
         this.gameStage = gameStage;
-        this.GamePane = GamePane;
+        this.gamePane = gamePane;
         this.LEVEL_MAP = LEVEL_MAP;
         this.toX = toX ;
         this.toY = toY ;
-        imageBomberman = new ImageView();
+        ArrayX = new int[4];
+        ArrayY = new int[4];
+        imageView = new ImageView();
         transition.setDuration(Duration.seconds(0.01));
-        transition.setNode(imageBomberman);
-        dieBomber();
+        transition.setNode(imageView);
     }
 
     public void setRun () {
@@ -61,10 +45,28 @@ public class Bomberman extends Entry implements Image_Game, Contruction_Game, Mu
         rightBomberRectangle();
         upBomberRectangle();
         downBomberRectangle();
-        imageBomberman.setImage(image_sprites);
-        imageBomberman.setFitHeight(44);
-        imageBomberman.setFitWidth(44);
-        insertImage(toX, toY, imageBomberman, image_sprites, bomberDownRectangle[0], GamePane);
+        dieBomberRectangle();
+        imageView.setImage(image_sprites);
+        imageView.setFitHeight(44);
+        imageView.setFitWidth(44);
+        insertImage(toX, toY, imageView, image_sprites, bomberDownRectangle[0], gamePane);
+    }
+
+    @Override
+    public void forCoordinates() {
+        ArrayX[0] = toX;
+        ArrayX[1] = toX + 30;
+        ArrayX[2] = toX;
+        ArrayX[3] = toX + 30;
+
+        ArrayY[0] = toY;
+        ArrayY[1] = toY;
+        ArrayY[2] = toY + 44;
+        ArrayY[3] = toY + 44;
+    }
+    public void heart() {
+        heartX = (int)(toX + 15) / 48;
+        heartY = (int)(toY + 22) / 48;
     }
 
     public void move (String direction) {
@@ -83,73 +85,59 @@ public class Bomberman extends Entry implements Image_Game, Contruction_Game, Mu
         if (direction == DOWN) {
             toY = toY + speed;
         }
+        forCoordinates();
+        heart();
         moveImage(count, direction);
         count++;
-        imageBomberman.setLayoutX(toX);
-        imageBomberman.setLayoutY(toY);
+        imageView.setLayoutX(toX);
+        imageView.setLayoutY(toY);
     }
 
     public void moveImage(int a, String direction) {
         if (direction == RIGHT) {
-            Animation2(5, a, toX, toY, bomberRightRectangle, imageBomberman, image_sprites);
+            Animation2(5, a, toX, toY, bomberRightRectangle, imageView, image_sprites);
         }
         if (direction == LEFT) {
-            Animation2(5, a, toX, toY, bomberLeftRectangle, imageBomberman, image_sprites);
+            Animation2(5, a, toX, toY, bomberLeftRectangle, imageView, image_sprites);
         }
         if (direction == UP) {
-            Animation2(5, a, toX, toY, bomberUpRectangle, imageBomberman, image_sprites);
+            Animation2(5, a, toX, toY, bomberUpRectangle, imageView, image_sprites);
         }
         if (direction == DOWN) {
-            Animation2(5, a, toX, toY, bomberDownRectangle, imageBomberman, image_sprites);
+            Animation2(5, a, toX, toY, bomberDownRectangle, imageView, image_sprites);
         }
 
+    }
+
+
+    public void moveCorrect(String direction) {
+        if (direction == UP || direction == DOWN) {
+            if (toX % 48 <= 28 && toX % 48 > 16 ) {
+                toX = toX - toX % 48 + 16;
+                imageView.setLayoutX(toX);
+            }
+            if (toX % 48 >= 35 ) {
+                toX = toX + (48 - toX % 48);
+                imageView.setLayoutX(toX);
+            }
+        }
+        if (direction == LEFT || direction == RIGHT) {
+            if (toY % 48 <= 8 && toY % 48 != 0) {
+                toY = toY - toY % 48;
+                imageView.setLayoutY(toY);
+            }
+            if (toY % 48 >= 40 && toY % 48 != 0) {
+                toY = toY + (48 - toY % 48);
+                imageView.setLayoutY(toY);
+            }
+        }
     }
 
     // a___b
     // |   |
     // c---d
     public int check = 0;
-
-    public int[] ArrX = new int[4];
-    public int[] ArrY = new int[4];
-
-    @Override
-    public void forCoordinates() {
-        ArrX[0] = toX;
-        ArrX[1] = toX + 30;
-        ArrX[2] = toX;
-        ArrX[3] = toX + 30;
-
-        ArrY[0] = toY;
-        ArrY[1] = toY;
-        ArrY[2] = toY + 44;
-        ArrY[3] = toY + 44;
-    }
-
-    public void moveCorrect(int a) {
-        if (a == 3 || a == 4) {
-            if (toX % 48 <= 28 && toX % 48 > 16 ) {
-                toX = toX - toX % 48 + 16;
-                imageBomberman.setLayoutX(toX);
-            }
-            if (toX % 48 >= 35 ) {
-                toX = toX + (48 - toX % 48);
-                imageBomberman.setLayoutX(toX);
-            }
-        }
-        if (a == 1 || a == 2) {
-            if (toY % 48 <= 8 && toY % 48 != 0) {
-                toY = toY - toY % 48;
-                imageBomberman.setLayoutY(toY);
-            }
-            if (toY % 48 >= 40 && toY % 48 != 0) {
-                toY = toY + (48 - toY % 48);
-                imageBomberman.setLayoutY(toY);
-            }
-        }
-    }
     public boolean checkMap(int nextX, int nextY, Bomb bomb) {
-        forCoordinates();
         int aToX = nextX / 48;
         int aToY = nextY / 48;
 
@@ -157,14 +145,14 @@ public class Bomberman extends Entry implements Image_Game, Contruction_Game, Mu
         int bToY = nextY / 48;
 
         int cToX = nextX / 48;
-        int cToY = (nextY + 44 ) / 48;
+        int cToY = (nextY + 40 ) / 48;
 
         int dToX = (nextX + 30 ) / 48;
-        int dToY = (nextY + 44 ) / 48;
+        int dToY = (nextY + 40 ) / 48;
         check = 0;
         for ( int i = 0 ; i < 4; i++) {
-            if (ArrX[i] > ((int)(bomb.toX) / 48) * 48 && ArrX[i] < ((int)(bomb.toX) / 48) * 48 + 48) {
-                if (ArrY[i] > ((int)(bomb.toY) / 48) * 48  && ArrY[i] < ((int)(bomb.toY) / 48) * 48  + 48) {
+            if (ArrayX[i] > ((int)(bomb.toX) / 48) * 48 && ArrayX[i] < ((int)(bomb.toX) / 48) * 48 + 48) {
+                if (ArrayY[i] > ((int)(bomb.toY) / 48) * 48  && ArrayY[i] < ((int)(bomb.toY) / 48) * 48  + 48) {
                     check = 1;
                 }
             }
@@ -180,21 +168,19 @@ public class Bomberman extends Entry implements Image_Game, Contruction_Game, Mu
 
     private static Music musicEatItem = new Music(music_power_url);
     public void eatItem(ImageView[][] imageView) {
-        int a = (toX + 15) / 48;
-        int b = (toY + 22) / 48;
-        if (LEVEL_MAP[b][a] == 'b' || LEVEL_MAP[b][a] == 'f' || LEVEL_MAP[b][a] == 's') {
-            GamePane.getChildren().remove(imageView[b][a]);
+        if (LEVEL_MAP[heartY][heartX] == 'b' || LEVEL_MAP[heartY][heartX] == 'f' || LEVEL_MAP[heartY][heartX] == 's') {
+            gamePane.getChildren().remove(imageView[heartY][heartX]);
             musicEatItem.musicStart(20);
-            if (LEVEL_MAP[b][a] == 's') {
+            if (LEVEL_MAP[heartY][heartX] == 's') {
                 SPEED ++;
             }
-            if (LEVEL_MAP[b][a] == 'b') {
+            if (LEVEL_MAP[heartY][heartX] == 'b') {
                 NumberBom ++;
             }
-            if (LEVEL_MAP[b][a] == 'f') {
+            if (LEVEL_MAP[heartY][heartX] == 'f') {
                 ExplosiveSize ++;
             }
-            LEVEL_MAP[b][a] = ' ';
+            LEVEL_MAP[heartY][heartX] = ' ';
         }
     }
 
@@ -203,7 +189,7 @@ public class Bomberman extends Entry implements Image_Game, Contruction_Game, Mu
         if (count > 30) {
             count = 0;
         }
-        Animation2(10 ,count, toX, toY, BomberDie, imageBomberman, image_sprites);
+        Animation2(10 ,count, toX, toY, BomberDie, imageView, image_sprites);
         count ++;
     }
 
@@ -216,7 +202,7 @@ public class Bomberman extends Entry implements Image_Game, Contruction_Game, Mu
                 die();
                 timeDie ++;
                 if (timeDie == 35) {
-                    GamePane.getChildren().remove(imageBomberman);
+                    gamePane.getChildren().remove(imageView);
                     loopdie.stop();
                     gameOver = true;
                 }

@@ -22,7 +22,6 @@ public class GameEnd implements Image_Game, Contruction_Game, MusicGame {
     private AnimationTimer gameEnd;
 
     private static Music musicEnd;
-    private static Music musicMenu;
     public GameEnd() {
         gameEndPane = new AnchorPane();
         gameEndScene = new Scene(gameEndPane, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -35,8 +34,6 @@ public class GameEnd implements Image_Game, Contruction_Game, MusicGame {
     }
     public void gameEnd(Stage menuStage, Music musicMenu, boolean gameOver) {
         this.menuStage = menuStage;
-        this.musicMenu = musicMenu;
-        //musicMenu.clip.stop();
         gameEnd = new AnimationTimer() {
             @Override
             public void handle(long now) {
