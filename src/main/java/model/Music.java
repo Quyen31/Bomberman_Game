@@ -65,4 +65,7 @@ public class Music {
     public void musicLoop() {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
+    public void musicStop() {
+        clip.stop();
+    }
 }
