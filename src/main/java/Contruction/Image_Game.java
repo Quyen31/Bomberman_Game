@@ -30,44 +30,147 @@ public interface Image_Game {
     Image image_game_over = new Image(new File(GAME_OVER).toURI().toString());
     Image image_game_win = new Image(new File(GAME_WIN).toURI().toString());
 
-    Rectangle2D[] bomberLeftRectangle = new Rectangle2D[3];
-    Rectangle2D[] bomberRightRectangle = new Rectangle2D[3];
-    Rectangle2D[] bomberUpRectangle = new Rectangle2D[3];
-    Rectangle2D[] bomberDownRectangle = new Rectangle2D[3];
+    Rectangle2D[] bomberLeftRectangle = {
+            new Rectangle2D(288 + 48 * 3 , 0, 48, 48),
+            new Rectangle2D(288 + 48 * 4 , 0, 48, 48),
+            new Rectangle2D(288 + 48 * 5 , 0, 48, 48)
+    };
+    Rectangle2D[] bomberRightRectangle = {
+            new Rectangle2D(288 , 0, 48, 48),
+            new Rectangle2D(288 + 48, 0, 48, 48),
+            new Rectangle2D(288 + 48 * 2, 0, 48, 48)};
+    Rectangle2D[] bomberUpRectangle = {
+            new Rectangle2D(0 , 0, 48, 48),
+            new Rectangle2D(48 , 0, 48, 48),
+            new Rectangle2D(48 * 2 , 0, 48, 48)
+    };
+    Rectangle2D[] bomberDownRectangle = {
+            new Rectangle2D(48 * 3 , 0, 48, 48),
+            new Rectangle2D(48 * 4 , 0, 48, 48),
+            new Rectangle2D(48 * 5 , 0, 48, 48)
+    };
 
-    Rectangle2D[] wallRectangle = new Rectangle2D[3];
+    Rectangle2D[] brickRectangle = {
+            new Rectangle2D(432, 288, 48, 48),
+            new Rectangle2D(480, 288, 48, 48),
+            new Rectangle2D(528, 288, 48, 48)
+    };
 
-    Rectangle2D[] leftFireRectangle = new Rectangle2D[3];
+    Rectangle2D[] leftFireRectangle = {
+            new Rectangle2D(144, 384, 48, 48),
+            new Rectangle2D(192, 384, 48, 48),
+            new Rectangle2D(240, 384, 48, 48),
+    };
 
-    Rectangle2D[] rightFireRectangle = new Rectangle2D[3];
+    Rectangle2D[] rightFireRectangle = {
+            new Rectangle2D(144, 480, 48, 48),
+            new Rectangle2D(192, 480, 48, 48),
+            new Rectangle2D(240, 480, 48, 48),
+    };
 
-    Rectangle2D[] upFireRectangle = new Rectangle2D[3];
+    Rectangle2D[] upFireRectangle = {
+            new Rectangle2D(0, 432, 48, 48),
+            new Rectangle2D(48, 432, 48, 48),
+            new Rectangle2D(96, 432, 48, 48)
+    };
 
-    Rectangle2D[] downFireRectangle = new Rectangle2D[3];
+    Rectangle2D[] downFireRectangle = {
+            new Rectangle2D(0, 528, 48, 48),
+            new Rectangle2D(48, 528, 48, 48),
+            new Rectangle2D(96, 528, 48, 48)
+    };
 
-    Rectangle2D[] mindleFireRectangle = new Rectangle2D[3];
+    Rectangle2D[] mindleFireRectangle = {
+            new Rectangle2D(0, 384, 48, 48),
+            new Rectangle2D(48, 384, 48, 48),
+            new Rectangle2D(96, 384, 48, 48)
+    };
 
-    Rectangle2D[] bombRectangle = new Rectangle2D[3];
+    Rectangle2D[] bombRectangle = {
+            new Rectangle2D(384, 192, 48, 48),
+            new Rectangle2D(432, 192, 48, 48),
+            new Rectangle2D(480, 192, 48, 48)
+    };
 
-    Rectangle2D[] LeftEnemy1Retangle = new Rectangle2D[3];
+    Rectangle2D[] FireRLRectangle = {
+            new Rectangle2D(144, 432, 48, 48),
+            new Rectangle2D(192, 432, 48, 48),
+            new Rectangle2D(240, 432, 48, 48)
+    };
 
-    Rectangle2D[] RightEnemy1Retangle = new Rectangle2D[3];
+    Rectangle2D[] FireUDRectnagle = {
+            new Rectangle2D(0, 480, 48, 48),
+            new Rectangle2D(48, 480, 48, 48),
+            new Rectangle2D(96, 480, 48, 48)
+    };
+    Rectangle2D[] LeftBalloomRetangle = {
+            new Rectangle2D(0, 48, 48, 48),
+            new Rectangle2D(48, 48, 48, 48),
+            new Rectangle2D(96, 48, 48, 48)
 
-    Rectangle2D[] LeftEnemy2Retangle = new Rectangle2D[3];
+    };
 
-    Rectangle2D[] RightEnemy2Retangle = new Rectangle2D[3];
+    Rectangle2D[] RightBalloomRetangle = {
+            new Rectangle2D(144, 48, 48, 48),
+            new Rectangle2D(192, 48, 48, 48),
+            new Rectangle2D(240, 48, 48, 48)
+    };
 
-    Rectangle2D[] FireRLRectangle = new Rectangle2D[3];
+    Rectangle2D[] LeftOnealRetangle = {
+            new Rectangle2D(0, 96, 48, 48),
+            new Rectangle2D(48, 96, 48, 48),
+            new Rectangle2D(96, 96, 48, 48)
+    };
 
-    Rectangle2D[] FireUDRectnagle = new Rectangle2D[3];
+    Rectangle2D[] RightOnealRetangle = {
+            new Rectangle2D(144, 96, 48, 48),
+            new Rectangle2D(192, 96, 48, 48),
+            new Rectangle2D(240, 96, 48, 48)
+    };
 
-    Rectangle2D[] EnemyDie = new Rectangle2D[3];
+    Rectangle2D[] LeftDollRectangle = {
+            new Rectangle2D(0, 3 * 48, 48, 48),
+            new Rectangle2D(48, 3 * 48, 48, 48),
+            new Rectangle2D(48 * 2, 3 * 48, 48, 48)
+    };
+
+    Rectangle2D[] RightDollRectangle = {
+            new Rectangle2D(48 * 3, 3 * 48, 48, 48),
+            new Rectangle2D(48 * 4, 3 * 48, 48, 48),
+            new Rectangle2D(48 * 5, 3 * 48, 48, 48)
+    };
+
+    Rectangle2D[] RightNightmareRectangle = {
+            new Rectangle2D(48 * 11, 48, 48, 48),
+            new Rectangle2D(48 * 12, 48, 48, 48),
+            new Rectangle2D(48 * 13,  48, 48, 48)
+    };
+
+    Rectangle2D[] LeftNightmareRectangle = {
+            new Rectangle2D(48 * 8, 48, 48, 48),
+            new Rectangle2D(48 * 9, 48, 48, 48),
+            new Rectangle2D(48 * 10, 48, 48, 48)
+    };
+    Rectangle2D[] BomberDie = {
+            new Rectangle2D(576, 0, 48, 48),
+            new Rectangle2D(624, 0, 48, 48),
+            new Rectangle2D(672, 0, 48, 48)
+
+    };
+    Rectangle2D[] EnemyDie = {
+            new Rectangle2D(528, 192, 48, 48),
+            new Rectangle2D(576, 192, 48, 48),
+            new Rectangle2D(624, 192, 48, 48)
+    };
 
     Rectangle2D GrassRectangle = new Rectangle2D(288,0,48,48);
 
-    Rectangle2D typeEnemyOne = new Rectangle2D(288, 48, 48, 48);
+    Rectangle2D dieBalloom = new Rectangle2D(288, 48, 48, 48);
 
-    Rectangle2D typeEnmyTwo = new Rectangle2D(288, 96, 48, 48);
+    Rectangle2D dieNightmare = new Rectangle2D(48 * 14, 48, 48, 48);
+    Rectangle2D dieDoll = new Rectangle2D(48 * 6, 48 * 3, 48, 48);
+
+    Rectangle2D dieOneal = new Rectangle2D(288, 96, 48, 48);
     Rectangle2D BombItem = new Rectangle2D(384, 384, 48, 48);
     Rectangle2D FlameItem = new Rectangle2D(432, 384, 48, 48);
     Rectangle2D SpeedItem = new Rectangle2D(480, 384, 48, 48);
@@ -75,139 +178,21 @@ public interface Image_Game {
     Rectangle2D WallRectangle = new Rectangle2D(240,0,48,48);
     Rectangle2D BrickRectangle = new Rectangle2D(336,0,48,48);
 
-    Rectangle2D[] BomberDie = new Rectangle2D[3];
-
-
-    default void leftBomberRectangle() {
-        bomberLeftRectangle[0] = new Rectangle2D(288 + 48 * 3 , 0, 48, 48);
-        bomberLeftRectangle[1] = new Rectangle2D(288 + 48 * 4 , 0, 48, 48);
-        bomberLeftRectangle[2] = new Rectangle2D(288 + 48 * 5 , 0, 48, 48);
-    }
-
-    default void rightBomberRectangle() {
-        bomberRightRectangle[0] = new Rectangle2D(288 , 0, 48, 48);
-        bomberRightRectangle[1] = new Rectangle2D(288 + 48, 0, 48, 48);
-        bomberRightRectangle[2] = new Rectangle2D(288 + 48 * 2, 0, 48, 48);
-    }
-
-    default void upBomberRectangle() {
-        bomberUpRectangle[0] = new Rectangle2D(0 , 0, 48, 48);
-        bomberUpRectangle[1] = new Rectangle2D(48 , 0, 48, 48);
-        bomberUpRectangle[2] = new Rectangle2D(48 * 2 , 0, 48, 48);
-    }
-
-    default void downBomberRectangle() {
-        bomberDownRectangle[0] = new Rectangle2D(48 * 3 , 0, 48, 48);
-        bomberDownRectangle[1] = new Rectangle2D(48 * 4 , 0, 48, 48);
-        bomberDownRectangle[2] = new Rectangle2D(48 * 5 , 0, 48, 48);
-    }
-
-    default void wallRectangle() {
-        wallRectangle[0] = new Rectangle2D(432, 288, 48, 48);
-        wallRectangle[1] = new Rectangle2D(480, 288, 48, 48);
-        wallRectangle[2] = new Rectangle2D(528, 288, 48, 48);
-    }
-
-    default void FireLeftRectangle() {
-        leftFireRectangle[0] = new Rectangle2D(144, 384, 48, 48);
-        leftFireRectangle[1] = new Rectangle2D(192, 384, 48, 48);
-        leftFireRectangle[2] = new Rectangle2D(240, 384, 48, 48);
-    }
-
-    default void FireRightRectangle() {
-        rightFireRectangle[0] = new Rectangle2D(144, 480, 48, 48);
-        rightFireRectangle[1] = new Rectangle2D(192, 480, 48, 48);
-        rightFireRectangle[2] = new Rectangle2D(240, 480, 48, 48);
-    }
-
-    default void FireUpRectangle() {
-        upFireRectangle[0] = new Rectangle2D(0, 432, 48, 48);
-        upFireRectangle[1] = new Rectangle2D(48, 432, 48, 48);
-        upFireRectangle[2] = new Rectangle2D(96, 432, 48, 48);
-    }
-
-    default void FireDownRectangle() {
-        downFireRectangle[0] = new Rectangle2D(0, 528, 48, 48);
-        downFireRectangle[1] = new Rectangle2D(48, 528, 48, 48);
-        downFireRectangle[2] = new Rectangle2D(96, 528, 48, 48);
-    }
-
-    default void FireMindleRectangle() {
-        mindleFireRectangle[0] = new Rectangle2D(0, 384, 48, 48);
-        mindleFireRectangle[1] = new Rectangle2D(48, 384, 48, 48);
-        mindleFireRectangle[2] = new Rectangle2D(96, 384, 48, 48);
-    }
-
-    default void FireRL() {
-        FireRLRectangle[0] = new Rectangle2D(144, 432, 48, 48);
-        FireRLRectangle[1] = new Rectangle2D(192, 432, 48, 48);
-        FireRLRectangle[2] = new Rectangle2D(240, 432, 48, 48);
-    }
-
-    default void FireUD() {
-        FireUDRectnagle[0] = new Rectangle2D(0, 480, 48, 48);
-        FireUDRectnagle[1] = new Rectangle2D(48, 480, 48, 48);
-        FireUDRectnagle[2] = new Rectangle2D(96, 480, 48, 48);
-    }
-    default void BombRectnagle() {
-        bombRectangle[0] = new Rectangle2D(384, 192, 48, 48);
-        bombRectangle[1] = new Rectangle2D(432, 192, 48, 48);
-        bombRectangle[2] = new Rectangle2D(480, 192, 48, 48);
-    }
-
-    default void LeftEnemyOneRectangle() {
-        LeftEnemy1Retangle[0] = new Rectangle2D(0, 48, 48, 48);
-        LeftEnemy1Retangle[1] = new Rectangle2D(48, 48, 48, 48);
-        LeftEnemy1Retangle[2] = new Rectangle2D(96, 48, 48, 48);
-    }
-
-    default void RightEnemyOneRectangle() {
-        RightEnemy1Retangle[0] = new Rectangle2D(144, 48, 48, 48);
-        RightEnemy1Retangle[1] = new Rectangle2D(192, 48, 48, 48);
-        RightEnemy1Retangle[2] = new Rectangle2D(240, 48, 48, 48);
-    }
-
-    default void LeftEnemyTwoRectangle() {
-        LeftEnemy2Retangle[0] = new Rectangle2D(0, 96, 48, 48);
-        LeftEnemy2Retangle[1] = new Rectangle2D(48, 96, 48, 48);
-        LeftEnemy2Retangle[2] = new Rectangle2D(96, 96, 48, 48);
-    }
-
-    default void RightEnemyTwoRectangle() {
-        RightEnemy2Retangle[0] = new Rectangle2D(144, 96, 48, 48);
-        RightEnemy2Retangle[1] = new Rectangle2D(192, 96, 48, 48);
-        RightEnemy2Retangle[2] = new Rectangle2D(240, 96, 48, 48);
-    }
-
-    default void dieEnemyRectangle() {
-        EnemyDie[0] = new Rectangle2D(528, 192, 48, 48);
-        EnemyDie[1] = new Rectangle2D(576, 192, 48, 48);
-        EnemyDie[2] = new Rectangle2D(624, 192, 48, 48);
-    }
-
-    default void dieBomberRectangle() {
-        BomberDie[0] = new Rectangle2D(576, 0, 48, 48);
-        BomberDie[1] = new Rectangle2D(624, 0, 48, 48);
-        BomberDie[2] = new Rectangle2D(672, 0, 48, 48);
-    }
-
-
-    default void Animation(int delay, int a, int coordinatesX, int coordinatesY, Rectangle2D[] rectangle2DS, ImageView imageView, Image image) {
+    /**
+     * delay là tần số hình ảnh nhấp nháy delay càng nhều thì nhấp nháy càng chậm
+     * cout là biến đếm mỗi lần biến đếm tăng đến một khoảng nhất định nào đó thì sẽ đổi hình
+     * Rectangle là bộ khung hình chữ nhật hiện ảnh
+     * image là ảnh lớn
+     * imageView là hiện ảnh đấy ra với khung hình nào trên 1 ảnh lớn
+     * Hàm này dùng để kiểm soát độ nhấp nháy
+     * Nó được kết hợp với một vòng loop (AnimationTime) và một biến count truyền vào
+     * để tạo một ảnh động (VD Bom ... hay bomber để di chuyển nhờ kết hợp nó với loop cuả game)
+     * count bên ngoài phải có giới hạn count < delay * rectangle2DS.length rồi phải quay lại count = 0;
+     */
+    static void Animation(int delay, int count, int coordinatesX, int coordinatesY, Rectangle2D[] rectangle2DS, ImageView imageView, Image image) {
         imageView.setImage(image);
         for (int j = 0; j < rectangle2DS.length; j++) {
-            if (delay * j <= a && a < delay * (j + 1)) {
-                imageView.setViewport(rectangle2DS[j]);
-            }
-        }
-        imageView.setLayoutX(coordinatesX * 48);
-        imageView.setLayoutY(coordinatesY * 48);
-
-    }
-
-    default void Animation2(int delay, int a, int coordinatesX, int coordinatesY, Rectangle2D[] rectangle2DS, ImageView imageView, Image image) {
-        imageView.setImage(image);
-        for (int j = 0; j < rectangle2DS.length; j++) {
-            if (delay * j <= a && a < delay * (j + 1)) {
+            if (delay * j <= count && count < delay * (j + 1)) {
                 imageView.setViewport(rectangle2DS[j]);
             }
         }
@@ -216,21 +201,31 @@ public interface Image_Game {
 
     }
 
-    default void moveCoordinates(int nextX, int nextY, ImageView imageView) {
+    /**
+     *Di chuyển ảnh sang một vị trí khác
+     */
+    static void moveCoordinates(int nextX, int nextY, ImageView imageView) {
         imageView.setLayoutY(nextY);
         imageView.setLayoutX(nextX);
     }
 
-    default void insertImage(int toX, int toY, ImageView imageView, Image image, Rectangle2D rectangle2D, AnchorPane pane) {
-        //imageView = new ImageView();
+    /**
+     * Hiện ảnh imageView tại một khung chữ nhật rectangle
+     * (mô hình ảnh to thì chỉ hiện phần ảnh trong cái khung chữ nhật đó)
+     * đồng thời add vào AnchorPane
+     */
+    static void insertImage(int toX, int toY, ImageView imageView, Image image, Rectangle2D rectangle2D, AnchorPane pane) {
         imageView.setImage(image);
         imageView.setViewport(rectangle2D);
         imageView.setLayoutX(toX);
         imageView.setLayoutY(toY);
         pane.getChildren().add(imageView);
     }
-    default void insertImage(int toX, int toY, ImageView imageView, Image image, AnchorPane pane) {
-        //imageView = new ImageView();
+
+    /**
+     * Hiện cả một hình ảnh chứ không cắt
+     */
+    static void insertImage(int toX, int toY, ImageView imageView, Image image, AnchorPane pane) {
         imageView.setImage(image);
         imageView.setLayoutX(toX);
         imageView.setLayoutY(toY);
