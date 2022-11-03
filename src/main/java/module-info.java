@@ -1,9 +1,9 @@
-module com.example.bomberman_game {
+module bomberman {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.desktop;
 
 
-    opens com.example.bomberman_game to javafx.fxml;
-    exports com.example.bomberman_game;
+    opens bomberman to javafx.fxml;
+    exports bomberman;
 }
