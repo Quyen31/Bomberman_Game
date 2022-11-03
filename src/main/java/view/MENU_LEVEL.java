@@ -1,25 +1,16 @@
 package view;
 
-import Contruction.Contruction_Game;
 import Contruction.Image_Game;
-import Contruction.MusicGame;
 import javafx.animation.AnimationTimer;
-import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.stage.Stage;
 import model.Doc_File;
 import model.Music;
 
-public class MENU_LEVEL implements Image_Game, Contruction_Game, MusicGame {
-    private static AnchorPane gameLevelPane;
-    private static Scene gameLevelScene;
-    private static Stage menuLevelStage;
+public class MENU_LEVEL extends ShowView {
     private static Stage gameStage;
     private static Stage menuStage;
-
-    private static ImageView imageView;
     private static ImageView imageView1;
 
     private static Background background;
@@ -36,7 +27,7 @@ public class MENU_LEVEL implements Image_Game, Contruction_Game, MusicGame {
 
     private static int timeDelay = 0;
 
-    static AnimationTimer delay;
+    private static AnimationTimer delay;
     private static Music music ;
 
     public static Music musicMenu;
@@ -44,14 +35,7 @@ public class MENU_LEVEL implements Image_Game, Contruction_Game, MusicGame {
 
 
     public MENU_LEVEL() {
-        gameLevelPane = new AnchorPane();
-        gameLevelScene = new Scene(gameLevelPane, SCREEN_WIDTH, SCREEN_HEIGHT);
-        gameLevelPane.setLayoutX(0);
-        gameLevelPane.setLayoutY(0);
-        menuLevelStage = new Stage();
-        menuLevelStage.setTitle("Start Bomberman");
-        menuLevelStage.setScene(gameLevelScene);
-        imageView = new ImageView();
+        super("Start Bomberman");
         imageView1 = new ImageView();
     }
 
@@ -68,8 +52,8 @@ public class MENU_LEVEL implements Image_Game, Contruction_Game, MusicGame {
             }
         };
         background = new Background(backgroundImage1);
-        gameLevelPane.setBackground(background);
-        insertImage(SCREEN_WIDTH/2 - (int)image_text_level[index].getWidth()/2, SCREEN_HEIGHT/2 - (int)image_text_level[index].getHeight()/2, imageView1, image_text_level[index], gameLevelPane);
+        Pane.setBackground(background);
+        Image_Game.insertImage(SCREEN_WIDTH/2 - (int)image_text_level[index].getWidth()/2, SCREEN_HEIGHT/2 - (int)image_text_level[index].getHeight()/2, imageView1, image_text_level[index], Pane);
         delay.start();
     }
 
@@ -85,7 +69,7 @@ public class MENU_LEVEL implements Image_Game, Contruction_Game, MusicGame {
 
     private void inGame() {
         GameViewManager gameViewManager = new GameViewManager(GAME_WIDTH, GAME_HEIGHT, LEVEL_MAP);
-        gameViewManager.createNewGame(menuLevelStage, menuStage);
+        gameViewManager.createNewGame(Stage, menuStage);
         music.clip.stop();
     }
 
@@ -102,7 +86,7 @@ public class MENU_LEVEL implements Image_Game, Contruction_Game, MusicGame {
         music.clip.start();
         DocFile();
         delayBackground();
-        menuLevelStage.show();
+        Stage.show();
     }
 
 }

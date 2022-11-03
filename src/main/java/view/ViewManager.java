@@ -1,25 +1,20 @@
 package view;
 
-import Contruction.Image_Game;
-import Contruction.MusicGame;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
 import javafx.stage.Stage;
 import model.Music;
 import model.SpacaRunnerSubScene;
 import model.SpaceRunnerButton;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewManager implements MusicGame, Image_Game {
+public class ViewManager extends ShowView {
 
     private static final int WIDTH = 1024;
     private static final int HEIGHT = 600;
@@ -33,20 +28,16 @@ public class ViewManager implements MusicGame, Image_Game {
 
     private static SpacaRunnerSubScene sceneToHide;
     List<SpaceRunnerButton> MenuButton ;
-    private AnchorPane mainPane;
-    private Scene mainScene;
-    private Stage mainStage;
+//    private AnchorPane Pane;
+//    private Scene Scene;
+//    private Stage Stage;
 
     private static Music musicMenu;
 
 
     public ViewManager() throws IOException {
+        super("Menu Bomberman");
         MenuButton = new ArrayList<>();
-        mainPane = new AnchorPane();
-        mainScene = new Scene(mainPane,WIDTH,HEIGHT);
-        mainStage = new Stage();
-        mainStage.setTitle("Menu Bomberman");
-        mainStage.setScene(mainScene);
         creteBackground();
         createButtons();
         textBackground();
@@ -56,14 +47,14 @@ public class ViewManager implements MusicGame, Image_Game {
     }
 
     public Stage getMainStage() {
-        return mainStage;
+        return Stage;
     }
 
     private void addMenuButton(SpaceRunnerButton button) {
         button.setLayoutX(MENU_BUTTON_X);
         button.setLayoutY(MENU_BUTTON_Y + MenuButton.size() * 100);
         MenuButton.add(button);
-        mainPane.getChildren().add(button);
+        Pane.getChildren().add(button);
     }
 
     private void createButtons() {
@@ -75,9 +66,9 @@ public class ViewManager implements MusicGame, Image_Game {
     }
 
     private void createSubScenes() {
-        mainPane.getChildren().add(credistsSubScene);
-        mainPane.getChildren().add(helpSubScene);
-        mainPane.getChildren().add(scoreSubScene);
+        Pane.getChildren().add(credistsSubScene);
+        Pane.getChildren().add(helpSubScene);
+        Pane.getChildren().add(scoreSubScene);
 
     }
 
@@ -99,7 +90,7 @@ public class ViewManager implements MusicGame, Image_Game {
             public void handle(ActionEvent event) {
                 musicMenu.clip.stop();
                 MENU_LEVEL menu_level = new MENU_LEVEL();
-                menu_level.createNewGame(mainStage, 0);
+                menu_level.createNewGame(Stage, 0);
                 MENU_LEVEL.musicMenu = musicMenu;
             }
         });
@@ -146,20 +137,19 @@ public class ViewManager implements MusicGame, Image_Game {
         ExitButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                mainStage.close();
+                Stage.close();
             }
         });
     }
 
     private void creteBackground() {
-
-        mainPane.setBackground(new Background(backgroundImage1));
+        Pane.setBackground(new Background(backgroundImage1));
     }
 
     private void textBackground() {
          ImageView image2 = new ImageView(new File("src/main/resources/Resources/text_Bomberman.png").toURI().toString());
          image2.setLayoutX(500);
          image2.setLayoutY(30);
-         mainPane.getChildren().add(image2);
+         Pane.getChildren().add(image2);
     }
 }

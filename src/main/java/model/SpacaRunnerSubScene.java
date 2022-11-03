@@ -1,17 +1,16 @@
 package model;
 
+import Contruction.Contruction_Game;
 import Contruction.Image_Game;
 import javafx.animation.TranslateTransition;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.SubScene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
 import java.io.File;
 
-public class SpacaRunnerSubScene extends SubScene implements Image_Game {
+public class SpacaRunnerSubScene extends SubScene implements Image_Game, Contruction_Game {
 
     private final static String FONT_PATH = "src/main/resources/Resources/kenvector_future.ttf";
     private final static String BACKGROUND_IMAGE = new File("src/main/resources/Resources/yellow_panel.png").toURI().toString();
@@ -27,7 +26,7 @@ public class SpacaRunnerSubScene extends SubScene implements Image_Game {
         root2.setBackground(new Background(image));
 
         isHidden = true;
-        setLayoutX(1024);
+        setLayoutX(SCREEN_WIDTH + 1);
         setLayoutY(100);
 
     }

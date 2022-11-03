@@ -1,15 +1,12 @@
-package com.example.bomberman_game;
+package bomberman;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import view.ViewManager;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 
-public class HelloApplication extends Application {
+public class AppBomberMain extends Application {
     @Override
     public void start(Stage stage) throws IOException{
         ViewManager manager = new ViewManager();
